@@ -29,7 +29,7 @@ public class MyController {
 //
 //    }
 
-    @GetMapping("/home")
+    @GetMapping("/")
     public ModelAndView homePage(Model model){
         model.addAttribute("title","Home - Smart Contact Manager");
         ModelAndView modelAndView= new ModelAndView();
@@ -42,6 +42,13 @@ public class MyController {
         model.addAttribute("title","About - Smart Contact Manager");
         ModelAndView modelAndView= new ModelAndView();
         modelAndView.setViewName("about");
+        return modelAndView;
+    }
+    @GetMapping("/signup")
+    public ModelAndView signupPage(Model model){
+        model.addAttribute("title","Register - Smart Contact Manager");
+        ModelAndView modelAndView= new ModelAndView();
+        modelAndView.setViewName("signup");
         return modelAndView;
     }
 
