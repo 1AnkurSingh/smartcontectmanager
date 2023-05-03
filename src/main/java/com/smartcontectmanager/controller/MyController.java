@@ -60,6 +60,7 @@ public class MyController {
 
         user.setRole("ROLE_USER");
         user.setEnable(true);
+        user.setImagesUrl("Default.png");
 
 
         System.out.println("Agreement" +agreement);
