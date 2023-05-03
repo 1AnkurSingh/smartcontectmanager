@@ -5,9 +5,7 @@ import com.smartcontectmanager.entity.User;
 import com.smartcontectmanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
@@ -47,8 +45,32 @@ public class MyController {
     @GetMapping("/signup")
     public ModelAndView signupPage(Model model){
         model.addAttribute("title","Register - Smart Contact Manager");
+        model.addAttribute("user",new User());
         ModelAndView modelAndView= new ModelAndView();
         modelAndView.setViewName("signup");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/do_register",method = RequestMethod.POST)
+    public ModelAndView registerUser(@ModelAttribute("user")User user,@RequestParam(value = "agreement",defaultValue = "false")boolean agreement,Model model){
+
+        if(!agreement){
+            System.out.println("you have not agreed the terms and condition");
+        }
+
+        user.setRole("ROLE_USER");
+        user.setEnable(true);
+
+
+        System.out.println("Agreement" +agreement);
+
+
+        ModelAndView modelAndView= new ModelAndView();
+        model.addAttribute("user",user);
+        modelAndView.setViewName("signup");
+        User result= this.userRepository.save(user);
+        System.out.println("User"+result);
+
         return modelAndView;
     }
 

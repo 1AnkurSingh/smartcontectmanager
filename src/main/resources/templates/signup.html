@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section})"
+      xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
   <title>This is home page</title>
@@ -20,50 +21,59 @@
 
           <h1 class="text-center">Registration Here !!</h1>
 
-          <form action="" th:action="@{/dp_register}" method="post">  </form>
+          <form action="" th:action="@{/do_register}" method="post" th:object="${user}">
 
 
-
-        </div>
         <!--           name field start -->
         <div class="form-group">
           <label for="name_field">Your name</label>
-          <input type="text"
+          <input
+                  name="name"
+
+                  type="text"
                  class="form-control"
                  id="name_field"
                  aria-describedby="emailHelp"
                  placeholder="Enter Here"
                  required
+                 th:value="${user.name}"
+
           />
         </div>
 
         <!--           email field start ---->
         <div class="form-group">
           <label for="email_field">Your Email</label>
-          <input type="text"
+          <input
+                  name="email"
+                  type="text"
                  class="form-control"
                  id="email_field"
                  aria-describedby="emailHelp"
                  placeholder="Enter Here"
                  required
+                 th:value="${user.email}"
           />
         </div>
 
         <!--     password field start ---->
         <div class="form-group">
           <label for="password_field">Your Password</label>
-          <input type="password"
+          <input
+                  name="password"
+                  type="password"
                  class="form-control"
                  id="password_field"
                  aria-describedby="emailHelp"
                  placeholder="Enter Here"
                  required
+
           />
         </div>
 <!--        user about -->
             <div class="form-group">
 
-              <textarea placeholder="Enter Something yourself" rows="6"class="form-control"></textarea>
+              <textarea name="about" th:value="${user.about}" placeholder="Enter Something yourself" rows="6"class="form-control"></textarea>
 
             </div>
         <div class="container text-center">
@@ -87,6 +97,7 @@
             Reset
           </button>
         </div>
+          </form>
 
 
       </div>
