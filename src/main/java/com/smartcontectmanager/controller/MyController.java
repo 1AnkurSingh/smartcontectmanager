@@ -2,7 +2,9 @@ package com.smartcontectmanager.controller;
 
 import com.smartcontectmanager.entity.Contact;
 import com.smartcontectmanager.entity.User;
+import com.smartcontectmanager.healper.Message;
 import com.smartcontectmanager.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -52,27 +54,35 @@ public class MyController {
     }
 
     @RequestMapping(value = "/do_register",method = RequestMethod.POST)
-    public ModelAndView registerUser(@ModelAttribute("user")User user,@RequestParam(value = "agreement",defaultValue = "false")boolean agreement,Model model){
-
-        if(!agreement){
-            System.out.println("you have not agreed the terms and condition");
-        }
-
-        user.setRole("ROLE_USER");
-        user.setEnable(true);
-        user.setImagesUrl("Default.png");
-
-
-        System.out.println("Agreement" +agreement);
-
-
+    public ModelAndView registerUser(@ModelAttribute("user")User user, @RequestParam(value = "agreement",defaultValue = "false")boolean agreement, Model model, HttpSession session){
         ModelAndView modelAndView= new ModelAndView();
-        model.addAttribute("user",user);
-        modelAndView.setViewName("signup");
-        User result= this.userRepository.save(user);
-        System.out.println("User"+result);
+       try{
 
-        return modelAndView;
+           if(!agreement){
+               System.out.println("you have not agreed the terms and condition");
+               throw new Exception( "you have not agreed the terms and condition");
+           }
+           user.setRole("ROLE_USER");
+           user.setEnable(true);
+           user.setImagesUrl("Default.png");
+           System.out.println("Agreement" +agreement);
+           System.out.println("user"+user);
+           User result= this.userRepository.save(user);
+           model.addAttribute("user",new User());
+           session.setAttribute("message",new Message("Successfully Register","alert success"));
+           modelAndView.setViewName("signup");
+           return modelAndView;
+
+       }catch (Exception e){
+        e.printStackTrace();
+        model.addAttribute("user",user);
+        session.setAttribute("message",new Message("Something went wrong!!"+e.getMessage(),"alert-danger"));
+           modelAndView.setViewName("signup");
+           return modelAndView;
+
+       }
+
+
     }
 
 
